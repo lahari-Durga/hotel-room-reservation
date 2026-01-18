@@ -1,7 +1,7 @@
 # Hotel Room Reservation System
 
 A lightweight, rule-based hotel room reservation system built as part of an SDE assessment.  
-The application allocates rooms by minimizing total travel time while following all given constraints.
+The application allocates rooms by minimizing total travel time while strictly following the given constraints.
 
 ---
 
@@ -21,28 +21,28 @@ A guest can book **up to 5 rooms per request**.
 
 - **Horizontal travel:** 1 minute per adjacent room on the same floor  
 - **Vertical travel:** 2 minutes per floor  
-- Total travel time = vertical + horizontal distance
+- Total travel time = vertical distance + horizontal distance
 
 ---
 
 ## 📌 Booking Logic
 
-1. Maximum of **5 rooms** per booking
-2. Priority is given to rooms on the **same floor**
-3. If unavailable:
-   - Rooms are selected across floors
-   - Allocation minimizes combined vertical and horizontal travel time
-4. Once booked, rooms become unavailable
+1. A maximum of **5 rooms** can be booked at a time.
+2. Priority is given to booking rooms on the **same floor**.
+3. If insufficient rooms are available on one floor:
+   - Rooms are selected across floors.
+   - Allocation minimizes combined vertical and horizontal travel time.
+4. Once booked, rooms are marked unavailable for future bookings.
 
 ---
 
 ## 🖥 Application Features
 
-- Input to enter number of rooms
+- Input to enter number of rooms to book
 - **Book Rooms** button
 - **Random Occupancy** simulation
-- **Reset** to clear all bookings
-- Visual floor-wise room layout
+- **Reset** button to clear all bookings
+- Visual floor-wise room layout showing available and booked rooms
 
 ---
 
@@ -52,7 +52,8 @@ A guest can book **up to 5 rooms per request**.
 - CSS
 - JavaScript (Vanilla)
 
-No frameworks or external libraries are used.
+No external libraries or frameworks are used.  
+All logic runs on the client side.
 
 ---
 
@@ -80,3 +81,7 @@ hotel-room-reservation/
 └── screenshots/
 ```
 
+
+## 👤 Author
+
+**Lahari Durga Challapalli**
