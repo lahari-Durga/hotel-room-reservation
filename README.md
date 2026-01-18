@@ -72,5 +72,11 @@ No frameworks or external libraries are used.
 
 ## 📂 Repository Structure
 
-
+```
+hotel-room-reservation/
+│
+├── index.html
+├── README.md
+└── screenshots/
+```
 
