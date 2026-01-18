@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hotel Room Reservation</title>
+  <style>
+    body { font-family: Arial; }
+    .floor { margin-bottom: 8px; }
+    .room {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #333;
+      display: inline-block;
+      margin: 2px;
+      text-align: center;
+      line-height: 30px;
+      font-size: 10px;
+    }
+    .available { background: #fff; }
+    .booked { background: #444; color: #fff; }
+  </style>
+</head>
+
+<body>
+<h3>Hotel Room Reservation System</h3>
+
+<input type="number" id="roomCount" min="1" max="5" placeholder="No of Rooms">
+<button onclick="bookRooms()">Book</button>
+<button onclick="resetAll()">Reset</button>
+<button onclick="randomOccupancy()">Random</button>
+
+<div id="hotel"></div>
+
+<script>
+let hotel = {};
+
+function initHotel() {
+  hotel = {};
+  for (let f = 1; f <= 10; f++) {
+    hotel[f] = [];
+    let limit = (f === 10) ? 7 : 10;
+    for (let r = 1; r <= limit; r++) {
+      hotel[f].push({ room: f * 100 + r, booked: false });
+    }
+  }
+}
+
+function renderHotel() {
+  let div = document.getElementById("hotel");
+  div.innerHTML = "";
+  for (let f = 10; f >= 1; f--) {
+    let row = document.createElement("div");
+    row.className = "floor";
+    hotel[f].forEach(r => {
+      let d = document.createElement("div");
+      d.className = "room " + (r.booked ? "booked" : "available");
+      d.innerText = r.room;
+      row.appendChild(d);
+    });
+    div.appendChild(row);
+  }
+}
+
+function travelTime(a, b) {
+  let fa = Math.floor(a / 100);
+  let fb = Math.floor(b / 100);
+  let ra = a % 100;
+  let rb = b % 100;
+  return Math.abs(fa - fb) * 2 + Math.abs(ra - rb);
+}
+
+function bookRooms() {
+  let n = parseInt(document.getElementById("roomCount").value);
+  if (!n || n > 5) return;
+
+  // Same floor priority
+  for (let f in hotel) {
+    let free = hotel[f].filter(r => !r.booked);
+    if (free.length >= n) {
+      free.slice(0, n).forEach(r => r.booked = true);
+      renderHotel();
+      return;
+    }
+  }
+
+  // Cross floor
+  let allFree = [];
+  for (let f in hotel) {
+    hotel[f].forEach(r => {
+      if (!r.booked) allFree.push(r);
+    });
+  }
+
+  allFree.sort((a, b) => travelTime(allFree[0].room, a.room) -
+                          travelTime(allFree[0].room, b.room));
+
+  allFree.slice(0, n).forEach(r => r.booked = true);
+  renderHotel();
+}
+
+function randomOccupancy() {
+  initHotel();
+  for (let f in hotel) {
+    hotel[f].forEach(r => {
+      r.booked = Math.random() < 0.3;
+    });
+  }
+  renderHotel();
+}
+
+function resetAll() {
+  initHotel();
+  renderHotel();
+}
+
+initHotel();
+renderHotel();
+</script>
+</body>
+</html>
